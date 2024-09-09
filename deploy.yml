@@ -1,0 +1,20 @@
+---
+- name: Deploy webserver on VM1 & VM2
+  hosts: vmservers
+  become: yes
+  tasks:
+    - name: Installing Apache web server
+      apt:
+        name: apache2
+        state: present
+
+    - name: Starting Apache web server
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Deploying a web page on VM1 & VM2
+      copy:
+        dest: /var/www/html/index.html
+        content: "Hello World from SJSU-{{ ansible_hostname[2] }}"

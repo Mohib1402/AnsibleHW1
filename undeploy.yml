@@ -1,0 +1,19 @@
+---
+- name: Remove webserver from VMs
+  hosts: vmservers
+  become: yes
+  tasks:
+    - name: Stop Apache service
+      service:
+        name: apache2
+        state: stopped
+
+    - name: Remove Apache package
+      apt:
+        name: apache2
+        state: absent
+
+    - name: Remove custom web page
+      file:
+        path: /var/www/html/index.html
+        state: absent
